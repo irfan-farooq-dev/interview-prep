@@ -20,7 +20,10 @@ class AuthJwtMiddleware
 
         try {
             // Replace with your auth-service public key
-            $decoded = JWT::decode($token, new Key(env('AUTH_PUBLIC_KEY'), 'RS256'));
+            $key_path  = config('jwt.public_key_path');
+            $publicKey = file_get_contents(base_path($key_path));
+
+            $decoded = JWT::decode($token, new Key($publicKey, 'RS256'));
             $request->attributes->set('user', $decoded);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Invalid token'], 401);
