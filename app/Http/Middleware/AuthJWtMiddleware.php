@@ -21,7 +21,7 @@ class AuthJwtMiddleware
         try {
             // Replace with your auth-service public key
             $key_path  = config('jwt.public_key_path');
-            $publicKey = file_get_contents(base_path($key_path));
+            $publicKey = file_get_contents($key_path);
 
             $decoded = JWT::decode($token, new Key($publicKey, 'RS256'));
             $request->attributes->set('user', $decoded);

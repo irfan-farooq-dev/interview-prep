@@ -1,0 +1,222 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Profile Service API",
+        "description": "API for the Profile Service",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/clear": {
+            "get": {
+                "tags": [
+                    "maintenance"
+                ],
+                "summary": "Clear caches and refresh config",
+                "operationId": "5a9d477adfc210994dd44b377ff33098",
+                "responses": {
+                    "200": {
+                        "description": "Result message",
+                        "content": {
+                            "text/plain": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/info": {
+            "get": {
+                "tags": [
+                    "public"
+                ],
+                "summary": "Public service info",
+                "operationId": "36ea22f1f32db7707cbbc79375696259",
+                "responses": {
+                    "200": {
+                        "description": "Service info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Info"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/news": {
+            "get": {
+                "tags": [
+                    "public"
+                ],
+                "summary": "Public news list",
+                "operationId": "c9736ba019cb5379e5ed8a6f7ac3aae2",
+                "responses": {
+                    "200": {
+                        "description": "Array of news items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/NewsItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/profile": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Authenticated user profile",
+                "operationId": "695a5ba8ff7a490aad2bed007b5499f9",
+                "responses": {
+                    "200": {
+                        "description": "User profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Profile"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/stats": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Authenticated user statistics",
+                "operationId": "ea76024c3b10d94b8a3dfc29fd6cc4ec",
+                "responses": {
+                    "200": {
+                        "description": "User stats",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Stats"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Info": {
+                "properties": {
+                    "service": {
+                        "type": "string",
+                        "example": "profile-service"
+                    },
+                    "version": {
+                        "type": "string",
+                        "example": "1.0.0"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Welcome to Profile Service (public endpoint)"
+                    }
+                },
+                "type": "object"
+            },
+            "NewsItem": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Microservices concept demo"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-31T12:34:56Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Profile": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Demo User"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "demo@example.com"
+                    }
+                },
+                "type": "object"
+            },
+            "Stats": {
+                "properties": {
+                    "projects": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "tasks": {
+                        "type": "integer",
+                        "example": 12
+                    },
+                    "notifications": {
+                        "type": "integer",
+                        "example": 3
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Enter token as: Bearer <token>",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "maintenance",
+            "description": "maintenance"
+        },
+        {
+            "name": "public",
+            "description": "public"
+        },
+        {
+            "name": "user",
+            "description": "user"
+        }
+    ]
+}
